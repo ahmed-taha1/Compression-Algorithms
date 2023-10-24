@@ -8,6 +8,7 @@ public class Main {
 }
 
 /*
+compress tests:
     test 1#:
         input:
             cabracadabrarrarrad
