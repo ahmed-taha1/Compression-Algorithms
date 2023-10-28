@@ -12,7 +12,7 @@ import java.util.Map;
 public class CompressionFactory {
     private final Map<String,ICompression> algorithmMapper = new HashMap<>();
     private static CompressionFactory instance = null;
-    public CompressionFactory getCompressionFactoryInstance(){
+    public static CompressionFactory getCompressionFactoryInstance(){
         if(CompressionFactory.instance == null){
             CompressionFactory.instance = new CompressionFactory();
         }
@@ -23,5 +23,8 @@ public class CompressionFactory {
     }
     public ICompression createCompression(String algorithmName){
         return algorithmMapper.get(algorithmName);
+    }
+    public String[] getAvailableCompressionAlgorithms(){
+        return this.algorithmMapper.keySet().toArray(new String[0]);
     }
 }
