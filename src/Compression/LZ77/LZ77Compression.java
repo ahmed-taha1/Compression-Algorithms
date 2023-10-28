@@ -26,11 +26,16 @@ public class LZ77Compression implements ICompression {
     @Override
     public String decompress(String data){
         ArrayList<LZ77Tag> tags = LZ77TagParser.parse(data);
-        String decompressed = "decompressed";
-        /**
-         * TODO implement ALGO
-         */
-        return decompressed;
+        String decompressedData = "";
+        for(int i = 0 ;i<tags.size();i++){
+            int start = decompressedData.length() - tags.get(i).offset;
+            int end = start + tags.get(i).length;
+            decompressedData += decompressedData.substring(start,end);
+            if(Character.isLetterOrDigit(tags.get(i).next)){
+                decompressedData += tags.get(i).next;
+            }
+        }
+        return decompressedData;
     }
     private static void addTag(ArrayList<LZ77Tag> compressedData, String current, String window){
         int position = 0;
