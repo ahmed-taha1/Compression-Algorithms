@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 class LZ77TagParser {
+    private static final int TAG_SIZE = 3;
     static ArrayList<LZ77Tag> parse(String compressedData){
         ArrayList<LZ77Tag>tags = new ArrayList<>();
         Stack<String>stack = new Stack<>();
         String lastEntry = "";
         for(int i = 0 ;i<compressedData.length();i++){
-            if (compressedData.charAt(i) == '>'){
+            if(!Character.isLetterOrDigit(compressedData.charAt(i))){
+                continue;
+            }
+            if (compressedData.charAt(i) == '>' || stack.size() == TAG_SIZE){
                 stack.push(lastEntry);
                 lastEntry = "";
                 String letter = stack.pop();
