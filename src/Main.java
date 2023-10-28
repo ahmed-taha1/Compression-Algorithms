@@ -1,11 +1,10 @@
-import java.io.IOException;
 
 // TODO add Array of algo for UI
 // TODO FIle read ,write
+
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        final Controller ui = new Controller();
-        ui.run();
+    public static void main(String[] args){
+        App.run();
     }
 }
 
