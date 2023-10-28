@@ -1,5 +1,5 @@
 package Reader;
 
-public interface Reader {
+public interface IReader {
     public String readData();
 }
