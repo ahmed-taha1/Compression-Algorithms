@@ -1,5 +1,10 @@
 import Compression.Factory.CompressionFactory;
 import Compression.ICompression;
+import Printer.ConsolePrinter;
+import Printer.FilePrinter;
+import Printer.Printer;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class App {
@@ -8,8 +13,9 @@ public class App {
     private static Scanner scanner = new Scanner(System.in);
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
+    private static final Printer printer = new ConsolePrinter();
 
-    public static void run(){
+    public static void run() throws IOException {
         while (true){
             final int algorithmChoice = AlgorithmListView();
             final String algorithmName = algorithmsList[algorithmChoice-1];
@@ -24,11 +30,13 @@ public class App {
             if (compressionChoice == COMPRESSION_CHOICE) {
                 final String data = compressView();
                 final String compressedWord = compressionAlgorithm.compress(data );
-                System.out.println("Data after Compression: "+compressedWord);
+                System.out.println("Compressed successfully.");
+                printer.print(compressedWord);
             }else if (compressionChoice == DECOMPRESSION_CHOICE) {
                 final String compressedData =  decompressView();
                 final String decompressedData = compressionAlgorithm.decompress(compressedData);
-                System.out.println("Data after decompression: "+decompressedData);
+                System.out.println("Decompressed successfully.");
+                printer.print(decompressedData);
             }else{
                 System.out.println("wrong input program has been terminated");
             }
