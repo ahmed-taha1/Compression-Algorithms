@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FilePrinter implements Printer{
+public class FilePrinter implements IPrinter {
     String fileName;
     public FilePrinter(String fileName) throws IOException {
         this.fileName = fileName;
