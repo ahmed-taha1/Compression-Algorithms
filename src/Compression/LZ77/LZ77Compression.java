@@ -25,15 +25,12 @@ public class LZ77Compression implements ICompression {
     }
     @Override
     public String decompress(String data){
-        ArrayList<LZ77Tag> tags = this.parseTags(data);
+        ArrayList<LZ77Tag> tags = LZ77TagParser.parse(data);
         String decompressed = "decompressed";
         /**
          * TODO implement ALGO
          */
         return decompressed;
-    }
-    private ArrayList<LZ77Tag> parseTags(String tagsString){
-        return  new ArrayList<LZ77Tag>();
     }
     private static void addTag(ArrayList<LZ77Tag> compressedData, String current, String window){
         int position = 0;

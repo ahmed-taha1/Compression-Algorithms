@@ -1,6 +1,6 @@
 package Compression.LZ77;
 
-public class LZ77Tag {
+class LZ77Tag {
     public LZ77Tag(int position, int length, char next){
         this.position = position;
         this.length = length;
