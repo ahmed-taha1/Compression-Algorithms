@@ -1,8 +1,7 @@
 import Compression.Factory.CompressionFactory;
 import Compression.ICompression;
 import Printer.ConsolePrinter;
-import Printer.FilePrinter;
-import Printer.Printer;
+import Printer.IPrinter;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -13,7 +12,7 @@ public class App {
     private static Scanner scanner = new Scanner(System.in);
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
-    private static final Printer printer = new ConsolePrinter();
+    private static final IPrinter printer = new ConsolePrinter();
 
     public static void run() throws IOException {
         while (true){
