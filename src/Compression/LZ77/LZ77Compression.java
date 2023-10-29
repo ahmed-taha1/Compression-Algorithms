@@ -38,14 +38,21 @@ public class LZ77Compression implements ICompression {
         return decompressedData;
     }
     private static void addTag(ArrayList<LZ77Tag> compressedData, String current, String window){
-        int position = 0;
         int length = current.length() - 1;
         char next = current.charAt(current.length() - 1);
+        String matchString = current.substring(0, current.length() - 1);
+        int lastIndexSearch = window.lastIndexOf(matchString);
+        int position = window.length() - lastIndexSearch;
 
-        if(current.length() > 1) {
-            String matchString = current.substring(0, current.length() - 1);
-            int lastIndexSearch = window.lastIndexOf(matchString);
-            position = window.length() - lastIndexSearch;
+        // if all chars at the current found at the window that's mean the loop has been terminated and there is remaining chars
+        if(window.lastIndexOf(current) != -1){
+            next = '-';
+            length += 1;
+        }
+
+        // first appear to char
+        else if(current.length() == 1) {
+            position = 0;
         }
         compressedData.add(new LZ77Tag(position, length, next));
     }
