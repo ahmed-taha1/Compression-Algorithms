@@ -30,7 +30,6 @@ public class LZ77Compression implements ICompression {
         for(int i = 0 ;i<tags.size();i++){
             int start = decompressedData.length() - tags.get(i).offset;
             int end = start + tags.get(i).length;
-            System.out.println(start + " " + end + "\n");
             decompressedData += decompressedData.substring(start,end);
             if(Character.isLetterOrDigit(tags.get(i).next)){
                 decompressedData += tags.get(i).next;
