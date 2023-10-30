@@ -2,11 +2,14 @@
 // TODO add Array of algo for UI
 // TODO FIle read ,write
 
+import App.App;
+
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        App.run();
+        App app = new App();
+        app.run();
     }
 }
 
@@ -24,7 +27,7 @@ compress tests:
             <2, 1, d>
             <7, 4, r>
             <3, 3, r>
-            <3, 1, d>
+            <11, 2, ->
 
     test 2#:
         input:
@@ -48,5 +51,5 @@ compress tests:
             <5, 3, B>
             <2, 2, B>
             <5, 5, B>
-            <1, 1, A>
+            <14, 2, ->
 */

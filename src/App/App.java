@@ -1,20 +1,27 @@
+package App;
+
 import Compression.Factory.CompressionFactory;
 import Compression.ICompression;
 import Printer.ConsolePrinter;
+import Printer.FilePrinter;
 import Printer.IPrinter;
+import Reader.ConsoleReader;
+import Reader.IReader;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Scanner;
 
 public class App {
     private static int COMPRESSION_CHOICE = 1;
     private static int DECOMPRESSION_CHOICE = 2;
-    private static Scanner scanner = new Scanner(System.in);
+    public static Scanner scanner = new Scanner(System.in);
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
-    private static final IPrinter printer = new ConsolePrinter();
+    private static final IPrinter printer = new FilePrinter();
+    private static final IReader reader = new ConsoleReader();
 
-    public static void run() throws IOException {
+    public void run() throws IOException {
         while (true){
             final int algorithmChoice = AlgorithmListView();
             final String algorithmName = algorithmsList[algorithmChoice-1];
@@ -26,14 +33,14 @@ public class App {
 
             // TODO Refactor to switch or mapping
             final int compressionChoice = CompressionListView();
+            final String data = reader.readData();
+
             if (compressionChoice == COMPRESSION_CHOICE) {
-                final String data = compressView();
-                final String compressedWord = compressionAlgorithm.compress(data );
+                final String compressedWord = compressionAlgorithm.compress(data);
                 System.out.println("Compressed successfully.");
                 printer.print(compressedWord);
             }else if (compressionChoice == DECOMPRESSION_CHOICE) {
-                final String compressedData =  decompressView();
-                final String decompressedData = compressionAlgorithm.decompress(compressedData);
+                final String decompressedData = compressionAlgorithm.decompress(data);
                 System.out.println("Decompressed successfully.");
                 printer.print(decompressedData);
             }else{
@@ -56,14 +63,13 @@ public class App {
         System.out.print(">> ");
         return scanner.nextInt();
     }
-    private static String compressView(){
-        System.out.print("please enter string: ");
-        scanner.nextLine();
+    public static String getWriteFilePath(){
+        System.out.print("please enter the file path that you want to write the data in: ");
         return scanner.nextLine();
     }
-    private static String decompressView(){
-        System.out.print("please enter compressed tags/String: ");
-        scanner.nextLine();
+
+    public static String getReadFilePath(){
+        System.out.print("please enter the file path that you want to read the data from: ");
         return scanner.nextLine();
     }
 }
