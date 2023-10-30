@@ -2,14 +2,10 @@ package App;
 
 import Compression.Factory.CompressionFactory;
 import Compression.ICompression;
-import Printer.ConsolePrinter;
-import Printer.FilePrinter;
-import Printer.IPrinter;
-import Reader.ConsoleReader;
-import Reader.IReader;
+import Printer.*;
+import Reader.*;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.Scanner;
 
 public class App {
@@ -19,7 +15,7 @@ public class App {
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
     private static final IPrinter printer = new FilePrinter();
-    private static final IReader reader = new ConsoleReader();
+    private static final IReader reader = new FileReader();
 
     public void run() throws IOException {
         while (true){
