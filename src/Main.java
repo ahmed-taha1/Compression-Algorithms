@@ -1,6 +1,5 @@
 
 // TODO add Array of algo for UI
-// TODO FIle read ,write
 
 import App.App;
 
@@ -27,7 +26,7 @@ compress tests:
             <2, 1, d>
             <7, 4, r>
             <3, 3, r>
-            <11, 2, ->
+            <11, 2, ً>
 
     test 2#:
         input:
@@ -51,5 +50,5 @@ compress tests:
             <5, 3, B>
             <2, 2, B>
             <5, 5, B>
-            <14, 2, ->
+            <14, 2, ً>
 */

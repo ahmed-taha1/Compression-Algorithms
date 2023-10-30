@@ -14,8 +14,8 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
-    private static final IPrinter printer = new FilePrinter();
-    private static final IReader reader = new FileReader();
+    private static final IPrinter printer = new FilePrinter(getWriteFilePath());
+    private static final IReader reader = new FileReader(getReadFilePath());
 
     public void run() throws IOException {
         while (true){
@@ -26,11 +26,10 @@ public class App {
                 System.out.println("wrong input,Algorithm doesn't exist. Terminating program");
                 continue;
             }
+            final String data = reader.readData();
 
             // TODO Refactor to switch or mapping
             final int compressionChoice = CompressionListView();
-            final String data = reader.readData();
-
             if (compressionChoice == COMPRESSION_CHOICE) {
                 final String compressedWord = compressionAlgorithm.compress(data);
                 System.out.println("Compressed successfully.");

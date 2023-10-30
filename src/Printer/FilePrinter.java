@@ -7,14 +7,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FilePrinter implements IPrinter {
-    String fileName;
-    public FilePrinter(){
-        this.fileName = App.getWriteFilePath();
-        File file = new File(this.fileName);
+    String filePath;
+    public FilePrinter(String filePath){
+        this.filePath = filePath;
+        File file = new File(this.filePath);
     }
     @Override
     public void print(String data) throws IOException {
-        FileWriter writer = new FileWriter(this.fileName);
+        FileWriter writer = new FileWriter(this.filePath);
         writer.write(data);
         writer.close();
     }

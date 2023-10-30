@@ -27,26 +27,31 @@ public class LZ77Compression implements ICompression {
     public String decompress(String data){
         ArrayList<LZ77Tag> tags = LZ77TagParser.parse(data);
         String decompressedData = "";
-        for(int i = 0 ;i<tags.size();i++){
-            int start = decompressedData.length() - tags.get(i).offset;
-            int end = start + tags.get(i).length;
-            decompressedData += decompressedData.substring(start,end);
-            if(Character.isLetterOrDigit(tags.get(i).next)){
-                decompressedData += tags.get(i).next;
+        for (LZ77Tag tag : tags) {
+            int start = decompressedData.length() - tag.offset;
+            int end = start + tag.length;
+            decompressedData += decompressedData.substring(start, end);
+            if(tag.next.equals("\\n")){
+                decompressedData += "\n";
+            }
+            else if (!tag.next.equals("ً")) { //will accept dash also from tags to replace it with new line char
+                decompressedData += tag.next;
             }
         }
+
+//        decompressedData = decompressedData.replace("\\n", "\n"); // replace dashes with new line char
         return decompressedData;
     }
     private static void addTag(ArrayList<LZ77Tag> compressedData, String current, String window){
         int length = current.length() - 1;
-        char next = current.charAt(current.length() - 1);
+        String next = String.valueOf(current.charAt(current.length() - 1));
         String matchString = current.substring(0, current.length() - 1);
         int lastIndexSearch = window.lastIndexOf(matchString);
         int position = window.length() - lastIndexSearch;
 
         // if all chars at the current found at the window that's mean the loop has been terminated and there is remaining chars
         if(window.lastIndexOf(current) != -1){
-            next = '-';
+            next = "ً";
             length += 1;
             position = window.length() - window.lastIndexOf(current);
         }
@@ -56,6 +61,9 @@ public class LZ77Compression implements ICompression {
             position = 0;
         }
 
+        if(next.equals("\n") ){
+            next = "\\n";
+        }
         compressedData.add(new LZ77Tag(position, length, next));
     }
 }
