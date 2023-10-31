@@ -24,7 +24,7 @@ public class App {
             final ICompression compressionAlgorithm = compressionFactoryInstance.createCompression(algorithmName);
             if(compressionAlgorithm == null){
                 System.out.println("wrong input,Algorithm doesn't exist. Terminating program");
-                continue;
+                break;
             }
             final String data = reader.readData();
 
@@ -40,6 +40,7 @@ public class App {
                 printer.print(decompressedData);
             }else{
                 System.out.println("wrong input program has been terminated");
+                break;
             }
         }
     }
@@ -58,12 +59,12 @@ public class App {
         System.out.print(">> ");
         return scanner.nextInt();
     }
-    public static String getWriteFilePath(){
+    private static String getWriteFilePath(){
         System.out.print("please enter the file path that you want to write the data in: ");
         return scanner.nextLine();
     }
 
-    public static String getReadFilePath(){
+    private static String getReadFilePath(){
         System.out.print("please enter the file path that you want to read the data from: ");
         return scanner.nextLine();
     }

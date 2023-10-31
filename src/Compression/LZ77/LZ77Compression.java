@@ -34,12 +34,11 @@ public class LZ77Compression implements ICompression {
             if(tag.next.equals("\\n")){
                 decompressedData += "\n";
             }
-            else if (!tag.next.equals("ً")) { //will accept dash also from tags to replace it with new line char
+            else if (!tag.next.equals("ً")) {
                 decompressedData += tag.next;
             }
         }
 
-//        decompressedData = decompressedData.replace("\\n", "\n"); // replace dashes with new line char
         return decompressedData;
     }
     private static void addTag(ArrayList<LZ77Tag> compressedData, String current, String window){

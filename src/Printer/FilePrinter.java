@@ -10,7 +10,6 @@ public class FilePrinter implements IPrinter {
     String filePath;
     public FilePrinter(String filePath){
         this.filePath = filePath;
-        File file = new File(this.filePath);
     }
     @Override
     public void print(String data) throws IOException {
