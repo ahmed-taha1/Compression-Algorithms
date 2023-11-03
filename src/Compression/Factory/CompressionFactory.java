@@ -2,6 +2,7 @@ package Compression.Factory;
 
 import Compression.ICompression;
 import Compression.LZ77.LZ77Compression;
+import Compression.LZW.LZWCompression;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class CompressionFactory {
     }
     private CompressionFactory(){
         algorithmMapper.put("lz77",new LZ77Compression());
+        algorithmMapper.put("lzw",new LZWCompression());
     }
     public ICompression createCompression(String algorithmName){
         return algorithmMapper.get(algorithmName);
