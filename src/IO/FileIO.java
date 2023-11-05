@@ -13,7 +13,6 @@ public class FileIO implements IO{
         this.writeFilePath = writeFilePath;
     }
 
-//    public FileIO() {}
     @Override
     public String readData() {
         StringBuilder content = new StringBuilder();
@@ -44,13 +43,5 @@ public class FileIO implements IO{
         } catch (IOException e){
             System.err.println(e.getMessage());
         }
-    }
-
-    public void setReadFilePath(String readFilePath) {
-        this.readFilePath = readFilePath;
-    }
-
-    public void setWriteFilePath(String writeFilePath) {
-        this.writeFilePath = writeFilePath;
     }
 }
