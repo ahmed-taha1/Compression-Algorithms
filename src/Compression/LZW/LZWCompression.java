@@ -27,7 +27,11 @@ public class LZWCompression implements ICompression {
             int encodedIndex = dictionary.get(currentSequence);
             tags.add(new LZWTag(encodedIndex));
         }
-        return tags.toString();
+        String stringTags = "";
+        for (LZWTag tag : tags) {
+            stringTags += Character.toString((char) tag.index);
+        }
+        return stringTags;
     }
     @Override
     public String decompress(String data) {
@@ -49,13 +53,9 @@ public class LZWCompression implements ICompression {
     private Map<String,Integer>createCompressionDictionary(){
         Map<String,Integer>dictionary = new HashMap<>();
         int index = 0 ;
-        for(char i = 'a';i<='z';i++){
+        for(char i = 0;i<=127;i++){
             index++;
-            dictionary.put(String.valueOf(i),index);
-        }
-        for(char i = 'A';i<='Z';i++){
-            index++;
-            dictionary.put(String.valueOf(i),index);
+            dictionary.put(String.valueOf((char) i),index);
         }
         return dictionary;
     }
@@ -63,13 +63,9 @@ public class LZWCompression implements ICompression {
     private Map<Integer,String>createDecompressionDictionary(){
         Map<Integer,String>dictionary = new HashMap<>();
         int index = 0 ;
-        for(char i = 'a';i<='z';i++){
+        for(char i = 0;i<=127;i++){
             index++;
-            dictionary.put(index,String.valueOf(i));
-        }
-        for(char i = 'A';i<='Z';i++){
-            index++;
-            dictionary.put(index,String.valueOf(i));
+            dictionary.put(index,String.valueOf((char) i));
         }
         return dictionary;
     }

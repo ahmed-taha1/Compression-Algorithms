@@ -13,7 +13,7 @@ public class FileIO implements IO{
         this.writeFilePath = writeFilePath;
     }
 
-    public FileIO() {}
+//    public FileIO() {}
     @Override
     public String readData() {
         StringBuilder content = new StringBuilder();

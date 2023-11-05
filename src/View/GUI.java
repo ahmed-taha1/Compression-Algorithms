@@ -1,3 +1,5 @@
+package View;
+
 import Controller.Controller;
 
 import javax.swing.*;
@@ -15,9 +17,10 @@ public class GUI extends JFrame {
     private JButton readFilePathBrowseBtn;
     private JButton decompressBtn;
     private JTextField outputField;
-    private final Controller controller = new Controller();
+    private final Controller controller;
 
     public GUI(){
+        this.controller = new Controller(this);
         setContentPane(MainPanel);
         setTitle("Compressor");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -72,12 +75,6 @@ public class GUI extends JFrame {
         return true;
     }
 
-    private void viewMessageBox(String message){
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JOptionPane.showMessageDialog(frame, message);
-    }
-
     public void initializeAlgorithmSelector(JComboBox comboBox){
         String[] algorithmList = controller.getAlgorithmsList();
         for(String algo : algorithmList){
@@ -87,8 +84,6 @@ public class GUI extends JFrame {
 
     public void compressBtnWork(){
         try {
-            controller.setFileReadPath(readFilePath.getText());
-            controller.setFileWritePath(writeFilePath.getText());
             controller.setCompressionAlgorithm(algorithmSelector.getSelectedIndex());
             outputField.setText(controller.compress());
         } catch (RuntimeException e){
@@ -99,8 +94,6 @@ public class GUI extends JFrame {
 
     public void decompressBtnWork(){
         try {
-            controller.setFileReadPath(readFilePath.getText());
-            controller.setFileWritePath(writeFilePath.getText());
             controller.setCompressionAlgorithm(algorithmSelector.getSelectedIndex());
             outputField.setText(controller.decompress());
         } catch (RuntimeException e){
@@ -108,5 +101,15 @@ public class GUI extends JFrame {
         }
         viewMessageBox("decompressed successfully");
     }
-
+    public String getReadFilePath(){
+        return this.readFilePath.getText();
+    }
+    public String getWriteFilePath(){
+        return this.writeFilePath.getText();
+    }
+    private void viewMessageBox(String message){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JOptionPane.showMessageDialog(frame, message);
+    }
 }
