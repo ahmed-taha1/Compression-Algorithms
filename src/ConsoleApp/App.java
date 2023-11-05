@@ -1,9 +1,8 @@
-package App;
+package ConsoleApp;
 
 import Compression.Factory.CompressionFactory;
 import Compression.ICompression;
-import Printer.*;
-import Reader.*;
+import IO.*;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,8 +13,7 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
-    private static final IPrinter printer = new FilePrinter(getWriteFilePath());
-    private static final IReader reader = new FileReader(getReadFilePath());
+    private static final IO iO = new FileIO(getReadFilePath(), getWriteFilePath());
 
     public void run() throws IOException {
         while (true){
@@ -26,18 +24,18 @@ public class App {
                 System.out.println("wrong input,Algorithm doesn't exist. Terminating program");
                 break;
             }
-            final String data = reader.readData();
+            final String data = iO.readData();
 
             // TODO Refactor to switch or mapping
             final int compressionChoice = CompressionListView();
             if (compressionChoice == COMPRESSION_CHOICE) {
                 final String compressedWord = compressionAlgorithm.compress(data);
                 System.out.println("Compressed successfully.");
-                printer.print(compressedWord);
+                iO.print(compressedWord);
             }else if (compressionChoice == DECOMPRESSION_CHOICE) {
                 final String decompressedData = compressionAlgorithm.decompress(data);
                 System.out.println("Decompressed successfully.");
-                printer.print(decompressedData);
+                iO.print(decompressedData);
             }else{
                 System.out.println("wrong input program has been terminated");
                 break;

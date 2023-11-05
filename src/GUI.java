@@ -1,3 +1,5 @@
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +14,8 @@ public class GUI extends JFrame {
     private JTextField readFilePath;
     private JButton readFilePathBrowseBtn;
     private JButton decompressBtn;
+    private JTextField outputField;
+    private final Controller controller = new Controller();
 
     public GUI(){
         setContentPane(MainPanel);
@@ -20,6 +24,7 @@ public class GUI extends JFrame {
         setSize(680, 480);
         setLocationRelativeTo(null);
         setVisible(true);
+        initializeAlgorithmSelector(algorithmSelector);
         writeFilePathBrowseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,6 +54,7 @@ public class GUI extends JFrame {
             }
         });
     }
+
     public void browseBtnAction(JTextField textField){
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
@@ -59,20 +65,48 @@ public class GUI extends JFrame {
     }
 
     public boolean checkNull(){
-        if(algorithmSelector.getSelectedIndex() == -1 || writeFilePath.getText() == null || readFilePath.getText() != null){
-            JFrame frame = new JFrame("Error");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JOptionPane.showMessageDialog(frame, "ERROR please ensure that you filled all fields\nwith a valid data");
+        if(algorithmSelector.getSelectedIndex() == -1 || writeFilePath.getText() == null || readFilePath.getText() == null){
+            viewMessageBox("ERROR please ensure that you filled all fields\nwith a valid data");
             return false;
         }
         return true;
     }
 
+    private void viewMessageBox(String message){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JOptionPane.showMessageDialog(frame, message);
+    }
+
+    public void initializeAlgorithmSelector(JComboBox comboBox){
+        String[] algorithmList = controller.getAlgorithmsList();
+        for(String algo : algorithmList){
+            comboBox.addItem(algo);
+        }
+    }
+
     public void compressBtnWork(){
-        //TODO implement compress button function
+        try {
+            controller.setFileReadPath(readFilePath.getText());
+            controller.setFileWritePath(writeFilePath.getText());
+            controller.setCompressionAlgorithm(algorithmSelector.getSelectedIndex());
+            outputField.setText(controller.compress());
+        } catch (RuntimeException e){
+            viewMessageBox(e.getMessage());
+        }
+        viewMessageBox("compressed successfully");
     }
 
     public void decompressBtnWork(){
-        //TODO implement decompress button function
+        try {
+            controller.setFileReadPath(readFilePath.getText());
+            controller.setFileWritePath(writeFilePath.getText());
+            controller.setCompressionAlgorithm(algorithmSelector.getSelectedIndex());
+            outputField.setText(controller.decompress());
+        } catch (RuntimeException e){
+            viewMessageBox(e.getMessage());
+        }
+        viewMessageBox("decompressed successfully");
     }
+
 }

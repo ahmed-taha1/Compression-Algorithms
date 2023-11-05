@@ -1,8 +1,6 @@
 
 // TODO add Array of algo for UI
 
-import App.App;
-
 import java.io.IOException;
 
 public class Main {

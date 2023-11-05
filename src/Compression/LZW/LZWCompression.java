@@ -45,6 +45,7 @@ public class LZWCompression implements ICompression {
         }
         return decompressedString;
     }
+    
     private Map<String,Integer>createCompressionDictionary(){
         Map<String,Integer>dictionary = new HashMap<>();
         int index = 0 ;
@@ -58,6 +59,7 @@ public class LZWCompression implements ICompression {
         }
         return dictionary;
     }
+
     private Map<Integer,String>createDecompressionDictionary(){
         Map<Integer,String>dictionary = new HashMap<>();
         int index = 0 ;
