@@ -52,20 +52,16 @@ public class LZWCompression implements ICompression {
     
     private Map<String,Integer>createCompressionDictionary(){
         Map<String,Integer>dictionary = new HashMap<>();
-        int index = 0 ;
-        for(char i = 0;i<=127;i++){
-            index++;
-            dictionary.put(String.valueOf((char) i),index);
+        for(int i = 0;i<=127;i++){
+            dictionary.put(String.valueOf((char) i),i);
         }
         return dictionary;
     }
 
     private Map<Integer,String>createDecompressionDictionary(){
         Map<Integer,String>dictionary = new HashMap<>();
-        int index = 0 ;
-        for(char i = 0;i<=127;i++){
-            index++;
-            dictionary.put(index,String.valueOf((char) i));
+        for(int i = 0;i<=127;i++){
+            dictionary.put(i,String.valueOf((char) i));
         }
         return dictionary;
     }
