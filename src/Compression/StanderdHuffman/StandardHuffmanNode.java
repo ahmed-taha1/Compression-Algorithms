@@ -1,8 +1,8 @@
 package Compression.StanderdHuffman;
 
 public class StandardHuffmanNode {
-    int data;
-    char c;
+    int frequency;
+    char letter;
 
     StandardHuffmanNode left;
     StandardHuffmanNode right;

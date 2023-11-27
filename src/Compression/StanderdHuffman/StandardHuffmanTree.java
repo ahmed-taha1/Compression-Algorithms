@@ -1,9 +1,6 @@
 package Compression.StanderdHuffman;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class StandardHuffmanTree {
     StandardHuffmanNode root;
@@ -30,13 +27,14 @@ public class StandardHuffmanTree {
 
         for (Character c: freq.keySet()) {
             StandardHuffmanNode standardHuffmanNode = new StandardHuffmanNode();
-            standardHuffmanNode.data = freq.get(c);
-            standardHuffmanNode.c = c;
+            standardHuffmanNode.frequency = freq.get(c);
+            standardHuffmanNode.letter = c;
             standardHuffmanNode.left = null;
             standardHuffmanNode.right = null;
             tree.add(standardHuffmanNode);
         }
 
+        root = tree.peek();
         while (tree.size() > 1){
             StandardHuffmanNode l = tree.peek();
             tree.poll();
@@ -47,22 +45,29 @@ public class StandardHuffmanTree {
             StandardHuffmanNode parent = new StandardHuffmanNode();
             parent.left = l;
             parent.right = r;
-            parent.data = l.data + r.data;
-            parent.c = '-';
+            parent.frequency = l.frequency + r.frequency;
+            parent.letter = '-';
 
             root = parent;
             tree.add(parent);
         }
     }
 
-    private void createCodeTable(StandardHuffmanNode root, String code){
-        if(root.left == null && root.right == null && Character.isLetter(root.c)){
-            codeTable.put(root.c, code);
+    private void createCodeTable(StandardHuffmanNode node, String code){
+        if(node == null) {
+            return;
+        }
+        if(node.left == null && node.right == null && Character.isLetter(node.letter)){
+            if(Objects.equals(code, "")){
+                codeTable.put(node.letter, "0");
+                return;
+            }
+            codeTable.put(node.letter, code);
             return;
         }
 
-        createCodeTable(root.left, code + "0");
-        createCodeTable(root.right, code + "1");
+        createCodeTable(node.left, code + "0");
+        createCodeTable(node.right, code + "1");
     }
 
     public Map<Character, String> getCodeTable(){
@@ -75,6 +80,6 @@ public class StandardHuffmanTree {
 class HuffmanNodeComparator implements Comparator<StandardHuffmanNode> {
     @Override
     public int compare(StandardHuffmanNode x, StandardHuffmanNode y) {
-        return x.data - y.data;
+        return x.frequency - y.frequency;
     }
 }

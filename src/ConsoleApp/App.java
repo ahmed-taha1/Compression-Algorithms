@@ -27,7 +27,6 @@ public class App {
             }
             final String data = iO.readData();
 
-            // TODO Refactor to switch or mapping
             final int compressionChoice = CompressionListView();
             if (compressionChoice == COMPRESSION_CHOICE) {
                 final String compressedWord = compressionAlgorithm.compress(data);
