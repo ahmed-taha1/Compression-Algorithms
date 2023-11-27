@@ -3,6 +3,7 @@ package Compression.Factory;
 import Compression.ICompression;
 import Compression.LZ77.LZ77Compression;
 import Compression.LZW.LZWCompression;
+import Compression.StanderdHuffman.StandardHuffmanCompression;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class CompressionFactory {
     private CompressionFactory(){
         algorithmMapper.put("lz77",new LZ77Compression());
         algorithmMapper.put("lzw",new LZWCompression());
+        algorithmMapper.put("standard huffman",new StandardHuffmanCompression());
     }
     public ICompression createCompression(String algorithmName){
         return algorithmMapper.get(algorithmName);
