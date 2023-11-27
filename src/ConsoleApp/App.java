@@ -13,7 +13,8 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
-    private static final IO iO = new FileIO(getReadFilePath(), getWriteFilePath());
+//    private static final IO iO = new FileIO(getReadFilePath(), getWriteFilePath());
+    private static final IO iO = new ConsoleIO();
 
     public void run() throws IOException {
         while (true){

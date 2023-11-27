@@ -3,7 +3,6 @@ import Compression.Factory.CompressionFactory;
 import Compression.ICompression;
 import IO.*;
 import View.GUI;
-import com.sun.tools.javac.Main;
 
 public class Controller {
     private final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
