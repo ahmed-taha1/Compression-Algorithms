@@ -25,12 +25,19 @@ public class VectorQuantizationParser {
         Vector<Vector<Double>> vectors = new Vector<>();
         vectors.setSize((dataHeight* dataHeight) / (vectorHeight * vectorWidth));
 
-        for(int i = 0; i < dataHeight; i+=vectorHeight){    // TODO fill the vectors
+        int vecNum = 0;
+        for(int i = 0; i < dataHeight; i+=vectorHeight){
             for(int j = 0; j < dataWidth; j+= vectorWidth){
-
+                Vector<Double> singleVector = new Vector<>();
+                for(int h = 0; h < vectorHeight; h++){
+                    for(int w = 0; w < vectorWidth; w++){
+                        singleVector.add(doubleData.get(i + h).get(w + j));
+                    }
+                }
+                vectors.set(vecNum, singleVector);
+                vecNum++;
             }
         }
-
         return vectors;
     }
 }
