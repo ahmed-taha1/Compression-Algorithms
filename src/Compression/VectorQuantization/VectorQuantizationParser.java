@@ -23,7 +23,7 @@ public class VectorQuantizationParser {
         int dataWidth = doubleData.get(0).size(), dataHeight = doubleData.size();
         int vectorWidth = 2, vectorHeight = 2;
         Vector<Vector<Double>> vectors = new Vector<>();
-        vectors.setSize((dataHeight* dataHeight) / (vectorHeight * vectorWidth));
+        vectors.setSize((dataHeight* dataWidth) / (vectorHeight * vectorWidth));
 
         int vecNum = 0;
         for(int i = 0; i < dataHeight; i+=vectorHeight){
