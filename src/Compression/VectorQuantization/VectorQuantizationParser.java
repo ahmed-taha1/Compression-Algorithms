@@ -1,9 +1,11 @@
 package Compression.VectorQuantization;
 
+import java.beans.VetoableChangeSupport;
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class VectorQuantizationParser {
+    private VectorQuantizationParser(){}
     public static Vector<Vector<Double>> extractVectorsFromData(String data){
         Vector<Vector<Double>> doubleData = new Vector<>();
         String[] dataList = data.split("\n");

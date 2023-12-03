@@ -14,7 +14,7 @@ public class App {
     private static final CompressionFactory compressionFactoryInstance = CompressionFactory.getCompressionFactoryInstance();
     private static final String[] algorithmsList = compressionFactoryInstance.getAvailableCompressionAlgorithms();
 //    private static final IO iO = new FileIO(getReadFilePath(), getWriteFilePath());
-    private static final IO iO = new ConsoleIO();
+    private static final IO iO = new FileIO("F:\\read.txt", "F:\\write.txt");
 
     public void run() throws IOException {
         while (true){
