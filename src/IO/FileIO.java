@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class FileIO implements IO{
-    String readFilePath, writeFilePath;
+    protected String readFilePath, writeFilePath;
 
     public FileIO(String readFilePath, String writeFilePath) {
         this.readFilePath = readFilePath;

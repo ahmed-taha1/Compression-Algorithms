@@ -58,6 +58,10 @@ public class GUI extends JFrame {
         });
     }
 
+    public JComboBox getAlgorithmSelector() {
+        return algorithmSelector;
+    }
+
     public void browseBtnAction(JTextField textField){
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);

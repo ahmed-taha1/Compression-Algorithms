@@ -4,30 +4,98 @@ import Compression.ICompression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 public class VectorQuantizationCompression implements ICompression {
     private final int codeBookSize = 4;     // 2^n only numbers
+    private final int vectorHeight = 2;
+    private final int vectorWidth = 2;
     @Override
     public String compress(String data) {
-        Vector<Vector<Double>> extractedVectors = VectorQuantizationParser.extractVectorsFromData(data);
+        Vector<Vector<Double>> extractedVectors = VectorQuantizationParser.extractVectorsFromData(data, vectorHeight, vectorWidth);
         Vector<Double> avgVector = getAvgVector(extractedVectors);
         Vector<Vector<Double>> codeBook = createCodeBook(extractedVectors, avgVector);
-
         Vector<Vector<Double>>[] indexedVectors = getIndexedVectors(extractedVectors, codeBook);
 
-//         for debug
-//        for(int i = 0; i < indexedVectors.length; i++){
-//            System.out.println(indexedVectors[i] + " ->" + i);
-//        }
+        int[] compressedImage = new int[extractedVectors.size()];
 
-        return null;
+        for(int i = 0; i < extractedVectors.size(); i++){
+            int vectorIndex = -1;
+            boolean found = false;
+            for(int j = 0; j < indexedVectors.length; j++){
+                for(int v = 0; v < indexedVectors[j].size(); v++){
+                    if(extractedVectors.get(i) == indexedVectors[j].get(v)){
+                        vectorIndex = j;
+                        found = true;
+                        break;
+                    }
+                    if(found){
+                        break;
+                    }
+                }
+            }
+            compressedImage[i] = vectorIndex;
+        }
+
+        String compressedData = "";
+        compressedData += VectorQuantizationParser.getImageWidth(data) + "\n";
+        compressedData += VectorQuantizationParser.getImageHeight(data) + "\n";
+        compressedData += codeBookSize + "\n";
+        compressedData += vectorWidth + "\n";
+        compressedData += vectorHeight + "\n";
+        for(int i = 0; i < codeBookSize; i++){
+            for(int j = 0; j < codeBook.get(i).size(); j++){
+                compressedData += codeBook.get(i).get(j).intValue() + "\n";
+            }
+        }
+
+        for(int i = 0; i < compressedImage.length; i++){
+            compressedData += compressedImage[i];
+            if(i != compressedImage.length - 1){
+                compressedData += "\n";
+            }
+        }
+
+        // for debug
+//        System.out.println(compressedData);
+        return compressedData;
     }
 
     @Override
     public String decompress(String data) {
-        return null;
+        int imageHeight = VectorQuantizationParser.extractImageHeightFromData(data);
+        int imageWidth = VectorQuantizationParser.extractImageWidthFromData(data);
+        int codeBookSize = VectorQuantizationParser.extractCodeBookSizeFromData(data);
+        int vectorHeight = VectorQuantizationParser.extractVectorHeightFromData(data);
+        int vectorWidth = VectorQuantizationParser.extractVectorWidthFromData(data);
+        Vector<Vector<Integer>> codeBook = VectorQuantizationParser.extractCodeBookFromData(data);
+        Vector<Integer> compressedImage = VectorQuantizationParser.extractCompressedImageFromData(data);
+
+        Integer[][] image = new Integer[imageHeight][imageWidth];
+        // compressed image vector loop
+        for(int c = 0; c < compressedImage.size(); c++) {
+            // fill each vector in the image
+            int vIndex = 0;
+            int x = (c / (imageHeight / vectorHeight) ) * vectorHeight;
+            int y = (c % (imageWidth / vectorWidth)) * vectorWidth;
+
+            for (int i = 0; i < vectorHeight; i++) {
+                for (int j = 0; j < vectorWidth; j++) {
+                    image[x + i][y + j] = codeBook.get(compressedImage.get(c)).get(vIndex++);
+                }
+            }
+        }
+        String decompressedData = "";
+        for(int i = 0; i < imageHeight; i++){
+            for(int j = 0; j < imageWidth; j++){
+                decompressedData += image[i][j];
+                if(j != imageWidth - 1)
+                    decompressedData += " ";
+            }
+            if(i != imageHeight - 1)
+                decompressedData += "\n";
+        }
+        return decompressedData;
     }
 
 
@@ -37,7 +105,6 @@ public class VectorQuantizationCompression implements ICompression {
         Vector<Vector<Double>>[] indexedVectors;
 
         int numberOfLevels = (int) (Math.log(codeBookSize) / Math.log(2));
-
         // splitting
         for(int l = 1; l <= numberOfLevels; l++){
             Vector<Vector<Double>> splittedVectors = new Vector<>();
@@ -108,6 +175,8 @@ public class VectorQuantizationCompression implements ICompression {
     }
 
     private Vector<Double> getAvgVector(Vector<Vector<Double>> vectors){
+        if (vectors.size() == 0)
+            return null;
         Vector<Double> avgVector = new Vector<>();
         avgVector.setSize(vectors.get(0).size());
         avgVector.replaceAll(ignored -> 0.0);
