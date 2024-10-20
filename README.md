@@ -1,4 +1,4 @@
-project that contains compression algorithms (lz77, lzw, standard huffman, vector quantization, images predictive encoding)
+# project that contains compression algorithms (lz77, lzw, standard huffman, vector quantization, images predictive encoding)
 
 - project supports both running on a console or desktop app and this feature is achieved via strategy pattern to switch between presenting strategy console or UI
 
